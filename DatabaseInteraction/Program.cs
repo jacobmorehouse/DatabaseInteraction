@@ -116,6 +116,26 @@ namespace DatabaseInteraction
 
             }
 
+            public static void deleteuser()
+            {
+                Console.Write("Delete which ID?: ");
+                //collect user ID and parse it into an int.
+                int userInputID; //this is all just to parse out the int.
+                var temp = Int32.TryParse(Console.ReadLine(), out userInputID); //the value I want is actually that guy on the end, userInputID
+
+                SqlConnection sqlConnection1 = new SqlConnection(ConnectionString);
+                SqlCommand cmd = new SqlCommand();
+
+                cmd.CommandText = String.Format("DELETE FROM Users WHERE id = {0}", userInputID);
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = sqlConnection1;
+
+                sqlConnection1.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection1.Close();
+                Console.Write(String.Format("Sucessfully deleted ID {0}", userInputID));
+            }
+
         }
         
 
@@ -123,10 +143,10 @@ namespace DatabaseInteraction
         static void Main(string[] args)
         {
             /* Instructions:
-             * l = list
+             * l = list (done)
              * e = edit
-             * a = add
-             * d = delete
+             * a = add (done)
+             * d = delete (done)
              * x / q = exit (done)
              * c = clear (done)
              * 
@@ -185,7 +205,10 @@ namespace DatabaseInteraction
                     case "a":
                         dbAction.adduser();
                         break;
-                        
+                    case "d":
+                        dbAction.deleteuser();
+                        break;
+
 
                     default:
                         break;
